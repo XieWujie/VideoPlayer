@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/phone_main_nav" app:startDestination="@id/videoListFragment">
+
+    <fragment android:id="@+id/videoListFragment" android:name="com.example.administrator.vidioplayer.view.VideoListFragment"
+              android:label="VideoListFragment">
+        <action android:id="@+id/action_videoListFragment_to_videoFragment" app:destination="@id/videoFragment"/>
+    </fragment>
+    <fragment android:id="@+id/videoFragment" android:name="com.example.administrator.vidioplayer.view.VideoFragment"
+              android:label="VideoFragment"/>
+</navigation>

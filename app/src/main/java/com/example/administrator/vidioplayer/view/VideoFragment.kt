@@ -1,63 +1,77 @@
 package com.example.administrator.vidioplayer.view
 
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.hardware.Sensor
 import android.hardware.SensorManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.MediaController
 import android.widget.VideoView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.example.administrator.vidioplayer.R
+import com.example.administrator.vidioplayer.event.IconCanSeeEvent
 import com.example.administrator.vidioplayer.event.IsPlayEvent
 import com.example.administrator.vidioplayer.event.SeekEvent
 import com.example.administrator.vidioplayer.util.SensorListener
-import com.example.administrator.vidioplayer.viewModel.VideoPlayViewModel
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class VideoFragment:Fragment(){
+class VideoFragment : Fragment() {
 
-    private lateinit var model:VideoPlayViewModel
-    private lateinit var videoView:VideoView
+    private lateinit var videoView: VideoView
     private lateinit var mediaController: MediaController
     private val sensorListener = SensorListener()
     private lateinit var sensorManager: SensorManager
+    private lateinit var icon_state: ImageView
+    private var position = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         EventBus.getDefault().register(this)
     }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_video_play,container,false)
+        val view = inflater.inflate(R.layout.fragment_video_play, container, false)
         videoView = view.findViewById(R.id.video_view)
-        model = ViewModelProviders.of(this)[VideoPlayViewModel::class.java]
+        icon_state = view.findViewById(R.id.state_icon)
+        position = savedInstanceState?.getInt("position") ?: 0
         init()
         return view
     }
-    fun init(){
-        val src = arguments?.getString("url")
-        model.source.value = src
+
+    fun init() {
+        val url = arguments?.getString("url")
         sensorManager = requireContext().getSystemService(Context.SENSOR_SERVICE) as SensorManager
         mediaController = MediaController(requireContext())
         videoView.setMediaController(mediaController)
-        model.source.observe(this, Observer {
-            if (it != null)
-            videoView.setVideoURI(Uri.parse(it))
-            videoView.start()
-        })
+        if (url != null)
+            videoView.setVideoURI(Uri.parse(url))
+        videoView.setOnPreparedListener {
+            it.seekTo(position)
+            it.start()
+        }
+
     }
 
     override fun onResume() {
         super.onResume()
-        sensorManager.registerListener(sensorListener,sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),SensorManager.SENSOR_DELAY_UI)
+        sensorManager.registerListener(
+            sensorListener,
+            sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
+            SensorManager.SENSOR_DELAY_UI
+        )
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        position = videoView.currentPosition - 1000
+        outState.putInt("position", if (position > 0) position else 0)
     }
 
     override fun onStop() {
@@ -65,42 +79,53 @@ class VideoFragment:Fragment(){
         sensorManager.unregisterListener(sensorListener)
     }
 
+
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun isPlay(isPlayEvent: IsPlayEvent){
-        if (isPlayEvent.isPlay){
-            Log.d("event--","start")
+    fun isPlay(isPlayEvent: IsPlayEvent) {
+        if (isPlayEvent.isPlay) {
+            icon_state.visibility = View.INVISIBLE
             videoView.start()
-        }else{
-            Log.d("event--","pause")
+        } else {
+            icon_state.visibility = View.VISIBLE
+            icon_state.setImageLevel(3)
             videoView.pause()
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun seek(seekEvent: SeekEvent){
-        if (seekEvent.isNext){
-            Log.d("event--","next")
-            videoView.seekTo(getNextTime())
-        }else{
-            Log.d("event--","previous")
-            videoView.seekTo(getPreviousTime())
+    fun seek(seekEvent: SeekEvent) {
+        icon_state.visibility = View.VISIBLE
+        val seekPosition = if (seekEvent.isNext) {
+            icon_state.setImageLevel(2)
+            getNextTime()
+        } else {
+            icon_state.setImageLevel(1)
+            getPreviousTime()
+        }
+        videoView.seekTo(seekPosition)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun iconCanSee(iconCanSeeEvent: IconCanSeeEvent) {
+        if (!iconCanSeeEvent.isCanSee) {
+            icon_state.visibility = View.INVISIBLE
         }
     }
 
-     fun getPreviousTime():Int{
-         val time = videoView.currentPosition-1000
-         return if (time>=0){
-             time
-         }else{
-             0
-         }
+    fun getPreviousTime(): Int {
+        val time = videoView.currentPosition - 1000
+        return if (time >= 0) {
+            time
+        } else {
+            0
+        }
     }
 
-    fun getNextTime():Int{
-        val time = videoView.currentPosition+1000
-        return if (time>=videoView.duration){
+    fun getNextTime(): Int {
+        val time = videoView.currentPosition + 1000
+        return if (time >= videoView.duration) {
             videoView.duration
-        }else{
+        } else {
             time
         }
     }

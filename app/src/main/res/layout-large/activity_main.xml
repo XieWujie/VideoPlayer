@@ -18,6 +18,6 @@
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="0dp"
             android:layout_height="match_parent" app:navGraph="@navigation/tablet_main_nav" app:defaultNavHost="true"
-            android:id="@+id/main_fragment" android:layout_weight="4"/>
+            android:id="@+id/main_fragment" android:layout_weight="6"/>
 
 </LinearLayout>

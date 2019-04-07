@@ -1,12 +1,8 @@
 package com.example.administrator.vidioplayer.adapter
 
-import android.os.Bundle
-import android.os.Handler
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.lifecycle.MutableLiveData
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.administrator.vidioplayer.R
 import com.example.administrator.vidioplayer.data.VideoBean

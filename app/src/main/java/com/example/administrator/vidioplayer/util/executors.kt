@@ -1,6 +1,5 @@
 package com.example.administrator.vidioplayer.util
 
-import android.graphics.Bitmap
 import java.util.concurrent.Executors
 
 @Suppress("propertyName")

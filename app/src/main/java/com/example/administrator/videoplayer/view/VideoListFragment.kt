@@ -1,4 +1,4 @@
-package com.example.administrator.vidioplayer.view
+package com.example.administrator.videoplayer.view
 
 import android.os.Bundle
 import android.os.Handler
@@ -6,14 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.administrator.vidioplayer.R
-import com.example.administrator.vidioplayer.adapter.VideoListAdapter
-import com.example.administrator.vidioplayer.viewModel.VideoListViewModel
+import com.example.administrator.videoplayer.R
+import com.example.administrator.videoplayer.adapter.VideoListAdapter
+import com.example.administrator.videoplayer.viewModel.VideoListViewModel
 
 class VideoListFragment:Fragment(){
 

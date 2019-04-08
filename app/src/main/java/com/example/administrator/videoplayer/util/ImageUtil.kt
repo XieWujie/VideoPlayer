@@ -1,4 +1,4 @@
-package com.example.administrator.vidioplayer.util
+package com.example.administrator.videoplayer.util
 
 import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever

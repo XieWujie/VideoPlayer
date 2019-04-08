@@ -1,12 +1,12 @@
-package com.example.administrator.vidioplayer.adapter
+package com.example.administrator.videoplayer.adapter
 
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.administrator.vidioplayer.R
-import com.example.administrator.vidioplayer.data.VideoBean
-import com.example.administrator.vidioplayer.util.ImageUtil
+import com.example.administrator.videoplayer.R
+import com.example.administrator.videoplayer.data.VideoBean
+import com.example.administrator.videoplayer.util.ImageUtil
 import org.greenrobot.eventbus.EventBus
 
 

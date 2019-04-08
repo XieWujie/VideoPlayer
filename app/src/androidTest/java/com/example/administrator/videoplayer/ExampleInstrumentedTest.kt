@@ -1,4 +1,4 @@
-package com.example.administrator.vidioplayer
+package com.example.administrator.videoplayer
 
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4

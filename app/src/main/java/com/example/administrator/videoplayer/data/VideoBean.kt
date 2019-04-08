@@ -1,3 +1,3 @@
-package com.example.administrator.vidioplayer.data
+package com.example.administrator.videoplayer.data
 
 data class VideoBean(val src:String,val title: String)

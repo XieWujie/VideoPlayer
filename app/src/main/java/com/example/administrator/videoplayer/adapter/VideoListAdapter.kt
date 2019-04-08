@@ -1,11 +1,10 @@
-package com.example.administrator.vidioplayer.adapter
+package com.example.administrator.videoplayer.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
-import com.example.administrator.vidioplayer.R
-import com.example.administrator.vidioplayer.data.VideoBean
+import com.example.administrator.videoplayer.R
+import com.example.administrator.videoplayer.data.VideoBean
 
 class VideoListAdapter:RecyclerView.Adapter<VideoListHolder>(){
 

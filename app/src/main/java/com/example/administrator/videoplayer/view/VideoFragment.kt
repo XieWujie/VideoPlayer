@@ -1,7 +1,6 @@
-package com.example.administrator.vidioplayer.view
+package com.example.administrator.videoplayer.view
 
 import android.content.Context
-import android.content.pm.ActivityInfo
 import android.hardware.Sensor
 import android.hardware.SensorManager
 import android.net.Uri
@@ -13,11 +12,11 @@ import android.widget.ImageView
 import android.widget.MediaController
 import android.widget.VideoView
 import androidx.fragment.app.Fragment
-import com.example.administrator.vidioplayer.R
-import com.example.administrator.vidioplayer.event.IconCanSeeEvent
-import com.example.administrator.vidioplayer.event.IsPlayEvent
-import com.example.administrator.vidioplayer.event.SeekEvent
-import com.example.administrator.vidioplayer.util.SensorListener
+import com.example.administrator.videoplayer.R
+import com.example.administrator.videoplayer.event.IconCanSeeEvent
+import com.example.administrator.videoplayer.event.IsPlayEvent
+import com.example.administrator.videoplayer.event.SeekEvent
+import com.example.administrator.videoplayer.util.SensorListener
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -26,7 +25,7 @@ class VideoFragment : Fragment() {
 
     private lateinit var videoView: VideoView
     private lateinit var mediaController: MediaController
-    private val sensorListener = SensorListener()
+    private lateinit var sensorListener:SensorListener
     private lateinit var sensorManager: SensorManager
     private lateinit var icon_state: ImageView
     private var position = 0
@@ -56,7 +55,12 @@ class VideoFragment : Fragment() {
             it.seekTo(position)
             it.start()
         }
+        sensorListener = SensorListener(isLand())
+    }
 
+    private fun isLand():Boolean{
+        val r = resources.displayMetrics
+        return r.widthPixels>r.heightPixels
     }
 
     override fun onResume() {

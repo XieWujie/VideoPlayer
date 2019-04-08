@@ -47,7 +47,7 @@ object ImageUtil{
         val height = bitmap.height
         val max = Math.max(width, height)
         if (max > 512) {
-            val scale = 512f / max
+            val scale = 128f / max
             val w = Math.round(scale * width)
             val h = Math.round(scale * height)
             bitmap = Bitmap.createScaledBitmap(bitmap, w, h, true)
